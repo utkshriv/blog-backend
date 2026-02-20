@@ -1,0 +1,49 @@
+# Environment variables
+.env
+.env.local
+.env.*.local
+.env.production
+.env.staging
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# uv / virtual environment
+.venv/
+venv/
+env/
+
+# uv lock (keep uv.lock committed — remove this line if you want to ignore it)
+# uv.lock
+
+# pytest
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+*.coveragerc
+
+# Lambda build artifacts
+lambda.zip
+lambda_build/
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
