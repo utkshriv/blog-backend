@@ -79,6 +79,21 @@ class ModuleUpdate(BaseModel):
     delete_problem_ids: Optional[list[str]] = None          # delete by LeetCode id
 
 
+# ── LeetCode ───────────────────────────────────────────────────────────────────
+
+class LeetCodeSyncRequest(BaseModel):
+    username: str  # LeetCode public username e.g. "botTheF"
+
+
+class LeetCodeSyncResponse(BaseModel):
+    username: str
+    easy: int
+    medium: int
+    hard: int
+    total: int
+    syncedAt: str
+
+
 # ── Upload ─────────────────────────────────────────────────────────────────────
 
 class UploadUrlRequest(BaseModel):

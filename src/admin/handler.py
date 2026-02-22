@@ -11,7 +11,7 @@ Lambda handler (set in CDK BackendStack):
 from fastapi import FastAPI
 from mangum import Mangum
 
-from admin.routes import blog, playbook, upload
+from admin.routes import blog, leetcode, playbook, upload
 
 app = FastAPI(
     title="botthef Admin API",
@@ -22,6 +22,7 @@ app = FastAPI(
 )
 
 app.include_router(blog.router)
+app.include_router(leetcode.router)
 app.include_router(playbook.router)
 app.include_router(upload.router)
 

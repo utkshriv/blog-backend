@@ -11,6 +11,7 @@ DYNAMODB_ENDPOINT = os.getenv("DYNAMODB_ENDPOINT")  # local only (http://localho
 
 ADMIN_EMAIL = os.getenv("ADMIN_EMAIL", "")
 NEXTAUTH_SECRET = os.getenv("NEXTAUTH_SECRET", "")
+MCP_API_KEY = os.getenv("MCP_API_KEY", "")
 
 # Injected into boto3 calls when running locally
 DYNAMODB_KWARGS: dict = {}

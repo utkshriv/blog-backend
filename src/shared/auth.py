@@ -19,7 +19,7 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from jose import ExpiredSignatureError, JWTError, jwt
 
-from shared.config import ADMIN_EMAIL, NEXTAUTH_SECRET
+from shared.config import ADMIN_EMAIL, NEXTAUTH_SECRET, MCP_API_KEY
 
 _security = HTTPBearer()
 
@@ -27,9 +27,33 @@ _security = HTTPBearer()
 def verify_admin_token(
     credentials: HTTPAuthorizationCredentials = Depends(_security),
 ) -> str:
-    """Dependency injected into every admin route. Returns the verified admin email."""
+    """
+    Dependency injected into every admin route. Returns the verified admin email.
+
+    Supports two authentication methods:
+    1. JWT tokens from NextAuth (for frontend)
+    2. Long-lived API keys (for MCP server and automation)
+    """
     token = credentials.credentials
 
+    # Check if it's an API key (starts with "btf_")
+    if token.startswith("btf_"):
+        if not MCP_API_KEY:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="MCP_API_KEY not configured",
+            )
+
+        if token == MCP_API_KEY:
+            return "mcp-server"  # Return a synthetic identity for API key auth
+        else:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Invalid API key",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+
+    # Otherwise, validate as JWT
     if not NEXTAUTH_SECRET:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
